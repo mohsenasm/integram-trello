@@ -11,11 +11,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/requilence/integram"
+	"github.com/mohsenasm/integram"
+	t "github.com/mohsenasm/integram-trello/api"
 	"github.com/requilence/decent"
-	t "github.com/integram-org/trello/api"
-	iurl "github.com/requilence/url"
 	tg "github.com/requilence/telegram-bot-api"
+	iurl "github.com/requilence/url"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -164,7 +164,6 @@ type webhook struct {
 }
 
 func cardPath(card *t.Card) (path string) {
-
 	if card.Board != nil {
 		path += card.Board.Name
 	}
@@ -189,6 +188,7 @@ var mdURLRe = regexp.MustCompile(`\[.*?\]\(.*?\)`)
 func cleanMarkdown(desc string) string {
 	return strings.Trim(mdURLRe.ReplaceAllString(desc, ""), "\n\t\r ")
 }
+
 func cleanDesc(desc string) string {
 	if desc == "" {
 		return ""
@@ -197,6 +197,7 @@ func cleanDesc(desc string) string {
 
 	return m.EncodeEntities(strings.Trim(a[0], "\n\t\r "))
 }
+
 func webhookHandler(c *integram.Context, wc *integram.WebhookContext) (err error) {
 	u, _ := iurl.Parse("https://trello.com")
 	c.ServiceBaseURL = *u
@@ -353,7 +354,6 @@ func webhookHandler(c *integram.Context, wc *integram.WebhookContext) (err error
 			}
 		}
 
-
 		if !bs.Filter.Labeled {
 			return
 		}
@@ -483,14 +483,11 @@ func webhookHandler(c *integram.Context, wc *integram.WebhookContext) (err error
 		}
 
 		if wh.Action.Type == "updateCheckItemStateOnCard" {
-
 			if wh.Action.Data.CheckItem.State == "incomplete" {
 				msg.SetTextFmt("❌ %s uncomplete %s on %s", mention(c, byMember), m.Bold(wh.Action.Data.CheckItem.Name), m.Bold(wh.Action.Data.Checklist.Name))
-
 			} else {
 				msg.SetTextFmt("✅ %s complete %s on %s", mention(c, byMember), m.Bold(wh.Action.Data.CheckItem.Name), m.Bold(wh.Action.Data.Checklist.Name))
 			}
-
 		} else {
 			msg.SetTextFmt("%s adds the checklist item %s to list %s", mention(c, byMember), m.Bold(wh.Action.Data.CheckItem.Name), m.Bold(wh.Action.Data.Checklist.Name))
 		}
@@ -542,7 +539,6 @@ func webhookHandler(c *integram.Context, wc *integram.WebhookContext) (err error
 			} else {
 				err = c.EditInlineButton(cardMsg.ChatID, cardMsg.MsgID, cardMsg.InlineKeyboardMarkup.State, "vote", "👍")
 			}*/
-
 		}
 		if err != nil {
 			return err
@@ -569,7 +565,7 @@ func webhookHandler(c *integram.Context, wc *integram.WebhookContext) (err error
 		if oldCard.IDList != "" {
 			// card moved to another list
 			err = c.UpdateServiceCache("card_"+card.Id, bson.M{"$set": bson.M{"val.list": wh.Action.Data.ListAfter}}, card)
-			//err = c.EditMessageText(cardMsg, cardText(c, card))
+			// err = c.EditMessageText(cardMsg, cardText(c, card))
 			updateCardMessages(c, wc, card)
 			if cardMsgJustPosted && err == nil {
 				return
@@ -653,6 +649,7 @@ func webhookHandler(c *integram.Context, wc *integram.WebhookContext) (err error
 
 	return
 }
+
 func mention(c *integram.Context, member *t.Member) string {
 	if member == nil {
 		return ""
@@ -676,7 +673,6 @@ func cardReplied(c *integram.Context, cardID string) error {
 			c.User.SetCache("auth_redirect", true, time.Hour*24)
 			c.NewMessage().EnableAntiFlood().SetTextFmt("You need to authorize me in order to comment cards with replies and use buttons: %s", c.User.OauthInitURL()).SetChat(c.User.ID).Send()
 		} else {
-
 			if c.Callback != nil {
 				kb := c.Callback.Message.InlineKeyboardMarkup
 				c.AnswerCallbackQuery("You need to authorize me\nUse the \"Tap me to auth\" button", true)
@@ -687,7 +683,6 @@ func cardReplied(c *integram.Context, cardID string) error {
 				kb.AddPMSwitchButton(c.Bot(), "👉  Tap me to auth", "auth")
 				c.NewMessage().EnableAntiFlood().SetText("You need to authorize me in order to comment cards with replies and use buttons").SetReplyToMsgID(c.Message.MsgID).SetInlineKeyboard(kb).Send()
 			}
-
 		}
 		return nil
 	}
@@ -764,13 +759,11 @@ func attachFileToCard(c *integram.Context, cardID string, doc tg.Document) error
 	extra := url.Values{"mimeType": {doc.MimeType}, "name": {doc.FileName}, "url": {"null"}}
 
 	body, contentType, err := multipartBody(extra, "file", fileLocalPath)
-
 	if err != nil {
 		return err
 	}
 
 	b, err := api(c).RequestWithHeaders("POST", "cards/"+cardID+"/attachments", body, map[string]string{"Content-Type": contentType}, nil)
-
 	if err != nil {
 		return err
 	}
@@ -791,7 +784,6 @@ func commentCard(c *integram.Context, cardID string, text string) error {
 
 	extra := url.Values{"text": {text}}
 	b, err := api(c).Request("POST", "cards/"+cardID+"/actions/comments", nil, extra)
-
 	if err != nil {
 		if strings.Contains(err.Error(), "invalid token") {
 			authWasRevokedMessage(c)

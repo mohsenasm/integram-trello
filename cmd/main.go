@@ -1,18 +1,18 @@
 package main
 
 import (
-	"github.com/requilence/integram"
-	"github.com/integram-org/trello"
 	"github.com/kelseyhightower/envconfig"
+	"github.com/mohsenasm/integram"
+	trello "github.com/mohsenasm/integram-trello"
 )
 
-func main(){
+func main() {
 	var cfg trello.Config
 	envconfig.MustProcess("TRELLO", &cfg)
 
 	integram.Register(
 		cfg,
-		cfg.BotConfig.Token, //hx_gitlab_bot,
+		cfg.BotConfig.Token, // hx_gitlab_bot,
 	)
 
 	integram.Run()
