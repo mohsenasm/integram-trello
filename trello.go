@@ -1115,7 +1115,7 @@ func cardText(c *integram.Context, card *t.Card) string {
 		}
 	}
 
-	text += "\n  📁 " + m.Bold(card.list.Name)
+	text += "\n  📁 " + m.Bold(card.List.Name)
 
 	return text
 }
