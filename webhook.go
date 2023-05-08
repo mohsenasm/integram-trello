@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mohsenasm/integram"
 	t "github.com/mohsenasm/integram-trello/api"
 	"github.com/requilence/decent"
+	"github.com/requilence/integram"
 	tg "github.com/requilence/telegram-bot-api"
 	iurl "github.com/requilence/url"
 	log "github.com/sirupsen/logrus"

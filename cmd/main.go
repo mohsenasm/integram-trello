@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/kelseyhightower/envconfig"
-	"github.com/mohsenasm/integram"
 	trello "github.com/mohsenasm/integram-trello"
+	"github.com/requilence/integram"
 )
 
 func main() {

@@ -25,10 +25,10 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/jinzhu/now"
-	"github.com/mohsenasm/integram"
 	t "github.com/mohsenasm/integram-trello/api"
 	"github.com/mrjones/oauth"
 	"github.com/requilence/decent"
+	"github.com/requilence/integram"
 	tg "github.com/requilence/telegram-bot-api"
 )
 

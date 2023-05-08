@@ -1,13 +1,13 @@
 module github.com/mohsenasm/integram-trello
 
-go 1.19
+go 1.18
 
 require (
 	github.com/jinzhu/now v1.1.5
 	github.com/kelseyhightower/envconfig v1.4.0
-	github.com/mohsenasm/integram v0.0.0-20230508162042-a520eddac246
 	github.com/mrjones/oauth v0.0.0-20190623134757-126b35219450
 	github.com/requilence/decent v0.0.0-20180119021527-2643cc319ff8
+	github.com/requilence/integram v0.0.0-20201029182713-7464d2640e02
 	github.com/requilence/telegram-bot-api v4.5.2-0.20190104221209-440431af8b3c+incompatible
 	github.com/requilence/url v0.0.0-20180119020412-6fc4fc0c65da
 	github.com/sirupsen/logrus v1.9.0
@@ -18,6 +18,7 @@ require (
 	github.com/bytedance/sonic v1.8.0 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/dchest/uniuri v0.0.0-20160212164326-8902c56451e9 // indirect
+	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/garyburd/redigo v1.6.0 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.9.0 // indirect
@@ -26,6 +27,7 @@ require (
 	github.com/go-playground/validator/v10 v10.11.2 // indirect
 	github.com/goccy/go-json v0.10.0 // indirect
 	github.com/golang/protobuf v1.5.0 // indirect
+	github.com/gomodule/redigo v1.8.9 // indirect
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kennygrant/sanitize v1.2.3 // indirect
@@ -50,5 +52,6 @@ require (
 	golang.org/x/text v0.7.0 // indirect
 	google.golang.org/appengine v1.0.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
