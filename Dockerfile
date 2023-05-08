@@ -1,12 +1,13 @@
-FROM golang:1.11 AS builder
-RUN curl -fsSL -o /usr/local/bin/dep https://github.com/golang/dep/releases/download/v0.4.1/dep-linux-amd64 && chmod +x /usr/local/bin/dep
+FROM golang:1.18 AS builder
+
 ENV PKG github.com/mohsenasm/integram-trello
-WORKDIR /go/src/${PKG}
+RUN mkdir /app
+WORKDIR /app
 
-COPY Gopkg.toml Gopkg.lock ./
+COPY go.mod go.sum ./
 
-# install locked dependencies(including Integram framework) versions from Gopkg.lock
-RUN dep ensure -vendor-only
+# install the dependencies without checking for go code
+RUN go mod download
 
 COPY . ./
 
